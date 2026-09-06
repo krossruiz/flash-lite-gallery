@@ -55,7 +55,7 @@ app.post('/api/generate', async (req, res) => {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const tools = [ { googleSearch: {} } ];
     const config = { thinkingConfig: { thinkingBudget: 24576 }, tools };
-    const model = 'gemini-2.5-flash';
+    const model = 'gemini-3.6-flash';
 
 
     // Instruct model to return only HTML+CSS+JS inside a single HTML document body
@@ -104,8 +104,12 @@ The user instruction is: ${prompt}`;
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
 
 
